@@ -2,6 +2,8 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { Room } from "./domain/Room";
+import { Grid } from "./domain/Grid";
 
 const app = express();
 const server = createServer(app);
@@ -12,16 +14,12 @@ const io = new Server(server, {
   }
 });
 
-io.on("connection", (socket) => {
-  console.log(`user ${socket.id} connected`);
-  
-  socket.on("disconnect", () => {
-    console.log(`user ${socket.id} disconnected`);
-  });
-  
-  socket.on("hello", (arg) => {
-    console.log("received:", arg);
-  })
-})
+const grid = new Grid(10, 10);
+const room = new Room(grid);
+
+io.on("connection", () => {
+  const user = room.new_player();
+  io.emit("game", { room, user });
+});
 
 server.listen(3000, () => console.log("server is running"));

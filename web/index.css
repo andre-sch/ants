@@ -1,0 +1,26 @@
+#root {
+  padding: 2rem;
+}
+
+#grid {
+  position: relative;
+  --unit: 10;
+  width: calc(attr(data-rows px) * var(--unit));
+  height: calc(attr(data-columns px) * var(--unit));
+  background: white;
+  border: 1px solid black;
+}
+
+#grid .player {
+  position: absolute;
+  top: calc(attr(data-y px) * var(--unit));
+  left: calc(attr(data-x px) * var(--unit));
+  width: calc(1px * var(--unit));
+  height: calc(1px * var(--unit));
+  border-radius: 50%;
+  background: black;
+}
+
+#grid .user {
+  background: blue;
+}
