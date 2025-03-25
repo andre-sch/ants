@@ -7,7 +7,7 @@ class Room {
     public players: Player[] = []
   ) {}
 
-  public new_player(): Player {
+  public newPlayer(): Player {
     const random_x = Math.floor(Math.random() * this.grid.rows);
     const random_y = Math.floor(Math.random() * this.grid.columns);
     const player = new Player([random_x, random_y]);

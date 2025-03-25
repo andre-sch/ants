@@ -19,7 +19,7 @@ const grid = new Grid(10, 10);
 const room = new Room(grid);
 
 io.on("connection", (socket) => {
-  const user = room.new_player();
+  const user = room.newPlayer();
   socket.emit("game-creation", { room, user });
   socket.broadcast.emit("user-creation", user);
 
