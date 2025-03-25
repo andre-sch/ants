@@ -32,6 +32,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
+    room.remove(user);
     socket.broadcast.emit("user-removal", user);
   })
 });

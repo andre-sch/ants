@@ -14,6 +14,10 @@ class Room {
     this.players.push(player);
     return player;
   }
+
+  public remove(player: Player) {
+    this.players = this.players.filter(p => p != player);
+  }
 }
 
 export { Room };
