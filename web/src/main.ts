@@ -65,3 +65,9 @@ socket.on("user-update", (user: Player) => {
   userView.dataset.x = xPosition.toString();
   userView.dataset.y = yPosition.toString();
 });
+
+socket.on("user-removal", (user: Player) => {
+  const userView = document.getElementById(user.id);
+  if (!userView) throw new Error("user view does not exist");
+  userView.remove();
+})

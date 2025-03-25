@@ -30,6 +30,10 @@ io.on("connection", (socket) => {
     handle(user);
     io.emit("user-update", user);
   });
+
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("user-removal", user);
+  })
 });
 
 server.listen(3000, () => console.log("server is running"));
