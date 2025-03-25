@@ -39,3 +39,29 @@ function createPlayerView(player: Player): HTMLElement {
 
   return playerView;
 }
+
+document.addEventListener("keydown", (event) => {
+  if (controls.includes(event.key)) {
+    socket.emit("user-action", event.key);
+  }
+});
+
+const controls = [
+  "ArrowUp",
+  "ArrowRight",
+  "ArrowDown",
+  "ArrowLeft",
+  "w",
+  "a",
+  "s",
+  "d"
+];
+
+socket.on("user-update", (user: Player) => {
+  const userView = document.getElementById(user.id);
+  if (!userView) throw new Error("user view does not exist");
+
+  const [xPosition, yPosition] = user.position;
+  userView.dataset.x = xPosition.toString();
+  userView.dataset.y = yPosition.toString();
+});

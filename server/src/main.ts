@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { Room } from "./domain/Room";
 import { Grid } from "./domain/Grid";
+import { PlayerActions } from "./domain/PlayerActions";
 
 const app = express();
 const server = createServer(app);
@@ -21,6 +22,14 @@ io.on("connection", (socket) => {
   const user = room.new_player();
   socket.emit("game-creation", { room, user });
   socket.broadcast.emit("user-creation", user);
+
+  socket.on("user-action", (key: string) => {
+    const handle = PlayerActions[key];
+    if (!handle) throw new Error("invalid key");
+
+    handle(user);
+    io.emit("user-update", user);
+  });
 });
 
 server.listen(3000, () => console.log("server is running"));
