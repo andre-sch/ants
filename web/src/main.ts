@@ -5,10 +5,10 @@ const root = document.getElementById("root") as HTMLDivElement;
 
 const socket = io(import.meta.env.VITE_SERVER);
 
-socket.on("game", createGameView);
-socket.on("users", (props: { newUser: Player }) => {
+socket.on("game-creation", createGameView);
+socket.on("user-creation", (newUser: Player) => {
   const grid = document.getElementById("grid") as HTMLDivElement;
-  const playerView = createPlayerView(props.newUser);
+  const playerView = createPlayerView(newUser);
   grid.appendChild(playerView);
 });
 

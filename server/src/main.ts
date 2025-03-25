@@ -19,8 +19,8 @@ const room = new Room(grid);
 
 io.on("connection", (socket) => {
   const user = room.new_player();
-  socket.emit("game", { room, user });
-  socket.broadcast.emit("users", { newUser: user });
+  socket.emit("game-creation", { room, user });
+  socket.broadcast.emit("user-creation", user);
 });
 
 server.listen(3000, () => console.log("server is running"));
