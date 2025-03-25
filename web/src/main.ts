@@ -4,31 +4,34 @@ import { Game, Player } from "./Game";
 const root = document.getElementById("root") as HTMLDivElement;
 
 const socket = io(import.meta.env.VITE_SERVER);
-socket.on("game", createGameView);
 
-function createGameView(game: Game) {
+socket.on("game", createGameView);
+socket.on("users", (props: { newUser: Player }) => {
+  const grid = document.getElementById("grid") as HTMLDivElement;
+  const playerView = createPlayerView(props.newUser);
+  grid.appendChild(playerView);
+});
+
+function createGameView({ room, user }: Game) {
   const grid = document.createElement("div");
 
   grid.id = "grid";
-  grid.dataset.rows = game.room.grid.rows.toString();
-  grid.dataset.columns = game.room.grid.columns.toString();
+  grid.dataset.rows = room.grid.rows.toString();
+  grid.dataset.columns = room.grid.columns.toString();
 
-  for (const player of game.room.players) {
-    const playerView = createPlayerView(player, game.user);
+  for (const player of room.players) {
+    const playerView = createPlayerView(player);
+    if (player.id == user.id) playerView.classList.add("user");
     grid.appendChild(playerView);
   }
 
   root.appendChild(grid);
 }
 
-function createPlayerView(player: Player, user: Player): HTMLElement {
+function createPlayerView(player: Player): HTMLElement {
   const playerView = document.createElement("span");
   playerView.className = "player";
   playerView.id = player.id;
-
-  if (player.id == user.id) {
-    playerView.classList.add("user");
-  }
   
   const [xPosition, yPosition] = player.position;
   playerView.dataset.x = xPosition.toString();
