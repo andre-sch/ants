@@ -9,8 +9,8 @@ const PlayerActions: Dictionary<Action> = {
   ArrowLeft(player: Player) { player.position[0] -= 1; },
   ArrowRight(player: Player) { player.position[0] += 1; },
   w(player: Player) { player.position[1] += 1; },
-  a(player: Player) { player.position[1] -= 1; },
-  s(player: Player) { player.position[0] -= 1; },
+  s(player: Player) { player.position[1] -= 1; },
+  a(player: Player) { player.position[0] -= 1; },
   d(player: Player) { player.position[0] += 1; }
 }
 
