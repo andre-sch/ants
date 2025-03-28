@@ -4,7 +4,7 @@ class PathGenerator {
   public generate(start: Point, end: Point): Point[] {
     const path: Point[] = [];
     const controlPoint = this.controlPoint(start, end);
-    const numberOfPoints = 5 + 0.75 * this.distance(start, end);
+    const numberOfPoints = 25 + 0.5 * this.distance(start, end);
     
     for (let i = 0; i < numberOfPoints; i++) {
       const t = i / (numberOfPoints - 1);
