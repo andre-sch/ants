@@ -1,5 +1,5 @@
 {
-  "name": "ctf-server",
+  "name": "ants",
   "version": "0.0.1",
   "scripts": {
     "dev": "ts-node src/main.ts",
