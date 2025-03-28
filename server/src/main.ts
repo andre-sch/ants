@@ -2,9 +2,10 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { User } from "./domain/User";
+import { Point } from "./domain/Point";
+import { pathGenerator } from "./domain/PathGenerator";
 import { Room } from "./domain/Room";
-import { Grid } from "./domain/Grid";
-import { PlayerActions } from "./domain/PlayerActions";
 
 const app = express();
 const server = createServer(app);
@@ -15,25 +16,33 @@ const io = new Server(server, {
   }
 });
 
-const grid = new Grid(10, 10);
-const room = new Room(grid);
+const room = new Room();
+const movementIntervals: Record<string, NodeJS.Timeout> = {};
 
 io.on("connection", (socket) => {
-  const user = room.newPlayer();
-  socket.emit("game-creation", { room, user });
+  const user = room.addUser();
+  socket.emit("game-creation", room);
   socket.broadcast.emit("user-creation", user);
 
-  socket.on("user-action", (key: string) => {
-    const handle = PlayerActions[key];
-    if (!handle) throw new Error("invalid key");
+  socket.on("movement", (target: Point) => {
+    let index = 0;
+    const path = pathGenerator.generate(user.position, target);
 
-    handle(user);
-    io.emit("user-update", user);
+    clearInterval(movementIntervals[user.id]);
+    movementIntervals[user.id] = setInterval(() => {
+      user.position = path[index];
+      io.emit("user-update", user);
+      index++;
+
+      if (index == path.length) {
+        clearInterval(movementIntervals[user.id]);
+      }
+    }, 50);
   });
 
   socket.on("disconnect", () => {
-    room.remove(user);
-    socket.broadcast.emit("user-removal", user);
+    room.removeUser(user);
+    io.emit("user-removal", user);
   })
 });
 

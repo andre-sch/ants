@@ -1,22 +1,22 @@
-import { Grid } from "./Grid";
-import { Player } from "./Player";
+import { User } from "./User";
 
 class Room {
-  constructor(
-    public grid: Grid,
-    public players: Player[] = []
-  ) {}
+  private users: User[] = [];
 
-  public newPlayer(): Player {
-    const random_x = Math.floor(Math.random() * this.grid.rows);
-    const random_y = Math.floor(Math.random() * this.grid.columns);
-    const player = new Player([random_x, random_y]);
-    this.players.push(player);
-    return player;
+  public listUsers(): User[] {
+    return this.users;
   }
 
-  public remove(player: Player) {
-    this.players = this.players.filter(p => p != player);
+  public addUser(): User {
+    const random_x = Math.floor(Math.random() * 100);
+    const random_y = Math.floor(Math.random() * 100);
+    const user = new User([random_x, random_y]);
+    this.users.push(user);
+    return user;
+  }
+
+  public removeUser(user: User) {
+    this.users = this.users.filter(ref => ref != user);
   }
 }
 
