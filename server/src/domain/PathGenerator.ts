@@ -1,11 +1,11 @@
-import { Point } from "./Point";
+import { distance, Point } from "./Point";
 
 class PathGenerator {
   public generate(start: Point, end: Point): Point[] {
     // generate a bezier curve between start and end points
     const curve: Point[] = [];
     const controlPoint = this.controlPoint(start, end);
-    const numberOfSamples = 100 + Math.floor(0.5 * this.distance(start, end));
+    const numberOfSamples = 100 + Math.floor(0.5 * distance(start, end));
 
     for (let i = 0; i < numberOfSamples; i++) {
       const t = i / (numberOfSamples - 1);
@@ -17,7 +17,7 @@ class PathGenerator {
     for (let i = 1; i < numberOfSamples; i++) {
       arcLengths.push(
         arcLengths[i - 1] +
-        this.distance(curve[i - 1], curve[i])
+        distance(curve[i - 1], curve[i])
       );
     }
 
@@ -56,10 +56,6 @@ class PathGenerator {
 
   private linearInterpolation(p0: Point, p1: Point, t: number): Point {
     return [p0[0] * (1 - t) + p1[0] * t, p0[1] * (1 - t) + p1[1] * t];
-  }
-
-  private distance(p0: Point, p1: Point) {
-    return Math.sqrt((p1[0] - p0[0]) ** 2 + (p1[1] - p0[1]) ** 2);
   }
 }
 
