@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "ts-node src/main.ts",
+    "test": "vitest",
     "build": "tsc",
     "start": "node dist/main.js"
   },
@@ -10,7 +11,8 @@
     "@types/express": "^5.0.1",
     "@types/node": "^22.13.11",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
