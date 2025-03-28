@@ -2,15 +2,35 @@ import { Point } from "./Point";
 
 class PathGenerator {
   public generate(start: Point, end: Point): Point[] {
-    const path: Point[] = [];
+    // generate a bezier curve between start and end points
+    const curve: Point[] = [];
     const controlPoint = this.controlPoint(start, end);
-    const numberOfPoints = 25 + 0.5 * this.distance(start, end);
-    
-    for (let i = 0; i < numberOfPoints; i++) {
-      const t = i / (numberOfPoints - 1);
-      path.push(this.bezier(start, controlPoint, end, t));
+    const numberOfSamples = 100 + Math.floor(0.5 * this.distance(start, end));
+
+    for (let i = 0; i < numberOfSamples; i++) {
+      const t = i / (numberOfSamples - 1);
+      curve.push(this.bezier(start, controlPoint, end, t));
     }
 
+    // evenly distribute the points along the curve
+    const arcLengths: number[] = [0];
+    for (let i = 1; i < numberOfSamples; i++) {
+      arcLengths.push(
+        arcLengths[i - 1] +
+        this.distance(curve[i - 1], curve[i])
+      );
+    }
+
+    const path: Point[] = [start];
+
+    let step = 1;
+    for (let i = 1; i < numberOfSamples; i++) {
+      if (arcLengths[i] < step) continue;
+      path.push(curve[i-1]);
+      step++;
+    }
+
+    path.push(end);
     return path;
   }
 
