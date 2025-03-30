@@ -2,7 +2,8 @@ import { io } from "socket.io-client";
 import { Room } from "./interfaces/Room";
 import { User } from "./interfaces/User";
 
-const root = document.getElementById("root") as HTMLDivElement;
+const app = document.getElementById("app") as HTMLDivElement;
+const form = document.getElementById("chat") as HTMLFormElement;
 
 const socket = io(import.meta.env.VITE_SERVER);
 
@@ -23,7 +24,7 @@ function renderUser(user: User): void {
     userView.className = "user";
     userView.id = user.id;
     
-    root.appendChild(userView);
+    app.appendChild(userView);
   };
 
   const [xPosition, yPosition] = user.position;
@@ -32,6 +33,9 @@ function renderUser(user: User): void {
 }
 
 document.addEventListener("click", (event) => {
+  const node = event.target as Node;
+  if (node == form || node.parentNode == form) return;
+
   const unit = 5;
   socket.emit("movement", [
     Math.floor(event.clientX / unit),
