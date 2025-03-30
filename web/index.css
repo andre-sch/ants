@@ -4,6 +4,10 @@ html, body, #root {
   overflow: hidden;
 }
 
+#root {
+  --unit: 5;
+}
+
 #root .user {
   position: absolute;
   top: calc(attr(data-y px) * var(--unit));

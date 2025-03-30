@@ -2,9 +2,7 @@ import { io } from "socket.io-client";
 import { Room } from "./interfaces/Room";
 import { User } from "./interfaces/User";
 
-const unit = 5;
 const root = document.getElementById("root") as HTMLDivElement;
-root.style.setProperty("--unit", unit.toString());
 
 const socket = io(import.meta.env.VITE_SERVER);
 
@@ -34,6 +32,7 @@ function renderUser(user: User): void {
 }
 
 document.addEventListener("click", (event) => {
+  const unit = 5;
   socket.emit("movement", [
     Math.floor(event.clientX / unit),
     Math.floor(event.clientY / unit)
