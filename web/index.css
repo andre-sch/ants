@@ -73,3 +73,41 @@ html, body, #app {
   border-radius: 50%;
   background: black;
 }
+
+.message {
+  position: absolute;
+  bottom: 100%;
+  right: 0%;
+  translate: 2rem -0.5rem;
+  width: max-content;
+  max-width: 7rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  word-wrap: break-word;
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, .5);
+  border: 1px solid black;
+}
+
+.message::before,
+.message::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+}
+
+.message::before {
+  border-top-width: 0px;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid black;
+}
+
+.message::after {
+  translate: -1px;
+  border-top-width: 0px;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid white;
+}

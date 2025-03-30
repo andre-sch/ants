@@ -2,9 +2,9 @@ import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { User } from "./domain/User";
 import { Point } from "./domain/Point";
 import { pathGenerator } from "./domain/PathGenerator";
+import { Message } from "./domain/Message";
 import { Room } from "./domain/Room";
 
 const app = express();
@@ -38,6 +38,11 @@ io.on("connection", (socket) => {
         clearInterval(movementIntervals[user.id]);
       }
     }, 50);
+  });
+
+  socket.on("chat", (text: string) => {
+    const message = new Message(text, user.id);
+    io.emit("chat", message);
   });
 
   socket.on("disconnect", () => {
