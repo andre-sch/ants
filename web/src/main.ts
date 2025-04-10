@@ -23,10 +23,14 @@ function createGame(room: Room) {
 function renderUser(user: User): void {
   var userView = document.getElementById(user.id);
   if (!userView) {
-    userView = document.createElement("span");
+    userView = document.createElement("div");
     userView.className = "user";
     userView.id = user.id;
     
+    const messages = document.createElement("div");
+    messages.className = "messages";
+
+    userView.appendChild(messages);
     app.appendChild(userView);
   };
 
@@ -64,7 +68,10 @@ function renderMessage(message: Message): void {
   const messageView = document.createElement("span");
   messageView.className = "message";
   messageView.textContent = text;
-  
+
   const userView = document.getElementById(userID);
-  userView?.appendChild(messageView);
+  userView?.children[0].appendChild(messageView);
+
+  const removalTimeout = 3 + text.length * 0.05;
+  setTimeout(() => messageView.remove(), removalTimeout * 1000);
 }
