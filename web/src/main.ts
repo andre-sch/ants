@@ -58,6 +58,7 @@ function removeUser(user: User): void {
 form.onsubmit = function(event) {
   event.preventDefault();
   const textInput = form["text"] as HTMLInputElement;
+  if (textInput.value.length == 0) return;
   socket.emit("chat", textInput.value);
   textInput.value = "";
 }
