@@ -14,7 +14,12 @@ app.use(cors({
   credentials: true
 }));
 
-const server = createServer(app);
+const sslOptions = {
+  key: process.env.SSL_KEY,
+  cert: process.env.SSL_CERT
+}
+
+const server = createServer(sslOptions, app);
 const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT,
