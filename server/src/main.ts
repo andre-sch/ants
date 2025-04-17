@@ -1,7 +1,7 @@
 import "dotenv/config";
 import cors from "cors";
 import express from "express";
-import { createServer } from "http";
+import { createServer } from "https";
 import { Server } from "socket.io";
 import { Point } from "./domain/Point";
 import { pathGenerator } from "./domain/PathGenerator";
