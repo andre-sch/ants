@@ -1,4 +1,5 @@
 import "dotenv/config";
+import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -8,10 +9,16 @@ import { Message } from "./domain/Message";
 import { Room } from "./domain/Room";
 
 const app = express();
+app.use(cors({
+  origin: process.env.CLIENT,
+  credentials: true
+}));
+
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: process.env.CLIENT,
+    methods: ["GET", "POST"],
     credentials: true
   }
 });
