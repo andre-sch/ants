@@ -23,6 +23,10 @@ const io = new Server(server, {
   }
 });
 
+app.get("/", (request, response) => {
+  response.json({ status: "OK" });
+});
+
 const room = new Room();
 const movementIntervals: Record<string, NodeJS.Timeout> = {};
 
