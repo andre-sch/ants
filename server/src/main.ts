@@ -1,4 +1,5 @@
 import "dotenv/config";
+import fs from "fs";
 import cors from "cors";
 import express from "express";
 import { createServer } from "https";
@@ -15,8 +16,8 @@ app.use(cors({
 }));
 
 const sslOptions = {
-  key: process.env.SSL_KEY,
-  cert: process.env.SSL_CERT
+  key: fs.readFileSync(process.env.SSL_KEY!),
+  cert: fs.readFileSync(process.env.SSL_CERT!)
 }
 
 const server = createServer(sslOptions, app);
